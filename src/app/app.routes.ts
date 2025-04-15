@@ -1,3 +1,26 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { ListProductsComponent } from './components/list-products/list-products.component';
+import { AddEditProductComponent } from './components/add-edit-product/add-edit-product.component';
+
+export const routes: Routes = [
+    { path: '', component: ListProductsComponent },
+    { path: 'add', component: AddEditProductComponent },
+    { path: 'edit/:id', component: AddEditProductComponent },
+    { path: '**', redirectTo: '', pathMatch: 'full' },
+];
+
+
+export class AppModule { } 
