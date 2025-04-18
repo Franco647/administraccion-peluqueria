@@ -1,0 +1,28 @@
+<div class="box box-primary" id="titulo">
+    <div 
+      (click)="toggle()" 
+      class="collapse-header d-flex justify-content-between cursor-pointer py-3"
+      [ngClass]="[ !isCollapsed ? 'open' : '', nivel ]"
+    >
+      <div class="w-100 d-flex justify-content-between align-items-center" [ngClass]="{ 'px-3': paddingX }">
+        <div 
+          class="titulo d-flex align-items-center" 
+          [ngClass]="tipo === 'primary' ? 'text-primary' : tipo === 'secondary' ? 'text-secondary' : tipo === 'success' ? 'text-success' : tipo === 'danger' ? 'text-danger' : tipo === 'warning' ? 'text-warning' : 'text-primary'">
+            {{ title }}
+        </div>
+        <div class="d-flex align-items-center">
+          <i class="fa" aria-hidden="true" [class.fas]="true" [class.fa-chevron-down]="isCollapsed" [class.fa-chevron-up]="!isCollapsed"></i>
+        </div>  
+      </div>
+    </div>
+  
+    <div id="target" #target class="collapse" [ngClass]="[ 'body', nivel ]">  
+      <div 
+        class="collapse-body"
+        [ngClass]="{ 'px-3': paddingX }"
+      >
+        <ng-content></ng-content>
+      </div>
+    </div>
+</div>
+  

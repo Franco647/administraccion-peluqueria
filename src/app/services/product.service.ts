@@ -14,11 +14,27 @@ export class ProductService {
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/productos/'
+    this.myApiUrl = 'api/clientes/'
   }
 
-  getListProducts(): Observable<Product[]> {
+  getListaClientes(): Observable<Product[]> {
    return this.http.get<Product[]>(`${this.myAppUrl}${this.myApiUrl}`);
+  }
+
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.myAppUrl}${this.myApiUrl}${id}`)
+  }
+
+  deleteCliente(id: number): Observable<Product[]> {
+    return this.http.delete<Product[]>(`${this.myAppUrl}${this.myApiUrl}${id}`);
+  }
+
+  saveProduct(product: Product): Observable<void> {
+    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`,product)
+  }
+
+  updateProduct(id: number, product: Product): Observable<void> {
+    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}${id}`, product);
   }
 
 }
