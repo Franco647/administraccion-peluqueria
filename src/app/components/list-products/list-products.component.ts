@@ -1,16 +1,21 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Product } from '../../interfaces/product';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-list-products',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HttpClientModule],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.scss'
 })
 export class ListProductsComponent {
+
+  loading: boolean = false;
+
   listProducts: Product[] = [
     { 
       id: 1,
@@ -35,7 +40,24 @@ export class ListProductsComponent {
      }
   ];
 
-  constructor() {
+  constructor(
+    private productService: ProductService
+  ) { }
 
+  ngOnInit(): void {
+    this.getListProducts();
   }
+
+  getListProducts() {
+    this.loading = true;
+
+    this.productService.getListProducts().subscribe(
+      (response: any) => {
+        if (response.status === 'ok') {
+          console.log(response)
+        }
+      }
+    )
+  }
+
 }
