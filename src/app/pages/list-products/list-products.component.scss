@@ -5,3 +5,57 @@ table {
 .btn-primary-its {
     width: 20%;
 }
+
+
+
+.tr-body {
+    cursor: pointer;
+    td {
+      height: 44px;
+  
+      i {
+        color: #666;
+      }
+    }
+}
+
+.head-active {
+    background-color: #EAEAEA;
+    td {
+        font-weight: 400;
+    }
+}
+
+.details-row.expanded .details:hover, .head-active:hover {
+    background-color: #EAEAEA;
+}
+
+.details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    padding: 0;
+  }
+  
+  .details-row.expanded .details {
+    max-height: max-content;
+    overflow: visible;
+    padding: 10px 0 12px 0; 
+  }
+  
+  .details-row.expanded {
+    background-color: #EAEAEA;
+  }
+  
+  .details-row {
+    td {
+      height: 0;
+      padding: 0;
+    }
+  }
+  
+  .details-row.expanded .details:hover, .head-active:hover {
+    background-color: #EAEAEA;
+  }
+  
+  

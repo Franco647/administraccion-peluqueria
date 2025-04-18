@@ -14,11 +14,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ListProductsComponent } from './pages/list-products/list-products.component';
 import { AddEditProductComponent } from './pages/add-edit-product/add-edit-product.component';
+import { InfoClienteComponent } from './pages/info-cliente/info-cliente.component';
 
 export const routes: Routes = [
     { path: '', component: ListProductsComponent },
     { path: 'add', component: AddEditProductComponent },
     { path: 'edit/:id', component: AddEditProductComponent },
+    { path: 'info/:id', component: InfoClienteComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import * as utils from '../../utils/utils';
 import { DialogService } from '../../services/dialog.service';
-// import { CollapseComponent } from '../../components/collapse/collapse.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-products',
@@ -18,6 +18,8 @@ import { DialogService } from '../../services/dialog.service';
 export class ListProductsComponent {
 
   loading: boolean = false;
+  filaNueva: boolean = false;
+  selectedItem: any;
 
   utils = utils
 
@@ -26,6 +28,7 @@ export class ListProductsComponent {
   constructor(
     private productService: ProductService,
     private dialogService: DialogService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -59,5 +62,12 @@ export class ListProductsComponent {
       }
     })
   }
+
+
+  toggleDetails(id: any) {
+    console.log(id)
+    this.router.navigate([`info/${id}`])
+  }
+
 
 }

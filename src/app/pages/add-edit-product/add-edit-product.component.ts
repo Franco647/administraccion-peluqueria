@@ -29,7 +29,8 @@ export class AddEditProductComponent implements OnInit {
     private _productService: ProductService,
     private router: Router,
     // private toastr: ToastrService,
-    private aRouter: ActivatedRoute) {
+    private aRouter: ActivatedRoute
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
