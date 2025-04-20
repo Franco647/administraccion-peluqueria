@@ -29,12 +29,33 @@ export class ProductService {
     return this.http.delete<Product[]>(`${this.myAppUrl}${this.myApiUrl}${id}`);
   }
 
+  deleteTrabajo(id: number): Observable<Product[]> {
+    return this.http.delete<Product[]>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`);
+  }
+
   saveProduct(product: Product): Observable<void> {
     return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`,product)
   }
 
   updateProduct(id: number, product: Product): Observable<void> {
     return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}${id}`, product);
+  }
+
+  crearTrabajoCliente(id: number, product: Product): Observable<void> {
+    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`, product);
+  }
+
+  editarClienteHistorial(id: number, data: Product): Observable<void> {
+    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`, data);
+  }
+
+
+
+  getSexo(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.myAppUrl}${this.myApiUrl}sexo`);
+  }
+  getMetodos(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.myAppUrl}${this.myApiUrl}metodos`);
   }
 
 }

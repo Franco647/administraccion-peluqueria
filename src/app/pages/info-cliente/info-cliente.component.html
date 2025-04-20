@@ -1,34 +1,52 @@
 <div class="page-container">
 
-<table class="table table-hover mt-2">
+  <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+    <h4>Historial de: <strong>{{ listProducts.name || null }}</strong></h4>
+  </div>
+
+  <!-- <td class="text-center align-middle">
+    <button type="button" class="btn-secondary-its w-100" routerLink="/edit/{{ item.id }}">Editar</button>
+  </td> -->
+
+<table class="table mt-2">
     <thead> 
       <tr>
-        <th class="text-center align-middle" scope="col">Nombre y Apellido:</th>
-        <th class="text-center align-middle" scope="col">Trabajo Realizado:</th>
+        <th class="text-center align-middle" scope="col">Trabajo:</th>
         <th class="text-center align-middle" scope="col">Importe:</th>
+        <th class="text-center align-middle" scope="col">Metodo de pago:</th>
         <th class="text-center align-middle" scope="col">Fecha:</th>
+        <th class="text-center align-middle" scope="col"></th>
         <th class="text-center align-middle" scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngIf="listProducts.length == 0">
+      <ng-container *ngIf="listProducts.historial.length == 0">
         <tr >
           <td colspan="5" class="text-center">No hay datos.</td>
         </tr>
       </ng-container>
-      <ng-container *ngFor="let item of listProducts">
+      <ng-container *ngFor="let item of listProducts.historial; let i = index">
         <tr class="tr-body">
-          <td class="text-center align-middle">{{ item.name }}</td>
           <td class="text-center align-middle">{{ item.description }}</td>
           <td class="text-center align-middle">{{ item.price | currency }}</td>
+          <td class="text-center align-middle">{{ item.metodo_pago }}</td>
           <td class="text-center align-middle">{{ utils.formatDate(item.date) }}</td>
-          <td class="text-center align-middle">
-            <button type="button" class="btn-secondary-its w-100" routerLink="/">Volver</button>
+          <td>
+            <button type="button" class="btn-danger-its text-center align-middle w-100" (click)="deleteTrabajo(item.id)">Eliminar</button>
+          </td>
+          <td>
+            <button type="button" class="btn-secondary-its text-center align-middle w-100" (click)="editarClienteHistorial(i)">Editar</button>
           </td>
 
         </tr>
       </ng-container>
     </tbody>
   </table>
+
+  <div class="d-flex justify-content-end w-100 mt-5">
+    <button type="button" class="btn-secondary-its mr-2 w-25" routerLink="/">Volver</button>
+    <button type="button" class="btn-danger-its mr-2 w-25" (click)="deleteCliente(listProducts.id)">Eliminar Cliente</button>
+    <button type="button" class="btn-primary-its w-25" (click)="modalAgregarTrabajo()">Agregar Trabajo</button>
+  </div>
 
 </div>

@@ -1491,9 +1491,10 @@ h2{
 }
 
 .form-control {
-  border: 1px solid #CCCCCC;
+  border: 1px solid #CCCCCC !important;
   border-radius: 7px !important;
   height: 40px !important;
+
 }
 
 .form-control:disabled {

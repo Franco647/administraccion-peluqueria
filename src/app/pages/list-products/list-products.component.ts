@@ -7,6 +7,8 @@ import { ProductService } from '../../services/product.service';
 import * as utils from '../../utils/utils';
 import { DialogService } from '../../services/dialog.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
 
 @Component({
   selector: 'app-list-products',
@@ -23,12 +25,13 @@ export class ListProductsComponent {
 
   utils = utils
 
-  listProducts: Product[] = [];
+  listProducts: any[] = [];
 
   constructor(
     private productService: ProductService,
     private dialogService: DialogService,
     private router: Router,
+    private matDialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -36,36 +39,45 @@ export class ListProductsComponent {
   }
 
   getListaClientes() {
-
-    // this.loading = true;
-
     this.productService.getListaClientes().subscribe(
       (response: any) => {
         if (response.status === 'ok') {
           this.listProducts = response.body;
+          // this.getProduct(this.listProducts[0].id!);
         }
       }
     )
   }
 
-
-  deleteCliente(id: number) {
-    this.dialogService.abrirDialogSimpleError("¿Estás seguro que deseás eliminar?").afterClosed().subscribe((flag) => {
-      if (flag) {
-        this.productService.deleteCliente(id).subscribe(
-          (response: any) => {
-            if (response.status === 'ok') {
-              this.getListaClientes();
-            }
-          }
-        )
-      }
+  getProduct(id: number) {
+    this.productService.getProduct(id).subscribe(
+      (response: any) => {
+        if (response.status === 'ok') {
+          console.log(response)
+          // this.histor = response.body;
+          console.log(this.listProducts)
+        }
     })
   }
 
+  agregarCliente() {
+    const dialogWidth = window.innerWidth < 768 ? '80vw' : '400px';
+    const dialogHeight = window.innerHeight < 768 ? '70vh' : '400px';
+
+    this.matDialog.open(AddEditProductComponent, {
+      width: dialogWidth,
+      height: dialogHeight,  
+    })
+    .afterClosed()
+    .subscribe((result) => {
+      console.log(result)
+      if (result) {
+        this.getListaClientes()
+      }
+    });
+  }
 
   toggleDetails(id: any) {
-    console.log(id)
     this.router.navigate([`info/${id}`])
   }
 

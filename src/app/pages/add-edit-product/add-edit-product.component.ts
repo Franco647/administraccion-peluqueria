@@ -4,15 +4,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
+import { NgSelectModule } from '@ng-select/ng-select';
 // import { ToastrService } from 'ngx-toastr';
 import * as utils from '../../utils/utils';
+import { MatDialogRef } from '@angular/material/dialog';
 // import { Product } from 'src/app/interfaces/product';
 // import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-add-edit-product',
   templateUrl: './add-edit-product.component.html',
-  imports: [ReactiveFormsModule, CommonModule, RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule, NgSelectModule],
   standalone: true,
   styleUrls: ['./add-edit-product.component.scss']
 })
@@ -22,19 +24,19 @@ export class AddEditProductComponent implements OnInit {
   id: number;
   operacion: string = 'Agregar ';
 
+  sexos: any[] = [];
+
   utils = utils
 
   constructor(
     private fb: FormBuilder,
     private _productService: ProductService,
-    private router: Router,
-    // private toastr: ToastrService,
+    public dialogRef: MatDialogRef<AddEditProductComponent>,
     private aRouter: ActivatedRoute
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: [null, Validators.required],
       date: [null, Validators.required],
     })
     this.id = Number(aRouter.snapshot.paramMap.get('id'));
@@ -47,6 +49,8 @@ export class AddEditProductComponent implements OnInit {
       this.operacion = 'Editar ';
       this.getProduct(this.id);
     }
+
+    this.getSexo();
   }
 
   getProduct(id: number) {
@@ -64,34 +68,32 @@ export class AddEditProductComponent implements OnInit {
   }
 
   addProduct() {
-     console.log(this.form.value.name);
-     console.log(this.form.get('name')?.value);
+    console.log(this.form.value.name);
 
-    const product: Product = {
+    const product: any = {
       name: this.form.value.name,
-      description: this.form.value.description,
-      price: this.form.value.price,
-      date: this.form.value.date
+      sexo: +this.form.value.description,
+      fecha_nacimiento: this.form.value.date
     }
-    this.loading = true;
 
-    if (this.id !== 0) {
-      // Es editar 
-      product.id = this.id;
-      this._productService.updateProduct(this.id, product).subscribe(() => {
-        // this.toastr.info(`El producto ${product.name} fue actualizado con exito`, 'Producto actualizado');
-        this.loading = false;
-        this.router.navigate(['/']);
-      })
+    this._productService.saveProduct(product).subscribe((data) => {
+      this.dialogRef.close(data);
+    })
+    
+  }
 
-    } else {
-      // Es agregagar
-      this._productService.saveProduct(product).subscribe(() => {
-        // this.toastr.success(`El producto ${product.name} fue registrado con exito`, 'Producto registrado');
-        this.loading = false;
-        this.router.navigate(['/']);
-      })
-    }
+  getSexo() {
+    this._productService.getSexo().subscribe(
+      (response: any) => {
+        if (response.status === 'ok') {
+          this.sexos = response.sexos
+        }
+      }
+    )
+  }
+
+  cerrar(): void {
+    this.dialogRef.close();
   }
 
 }
