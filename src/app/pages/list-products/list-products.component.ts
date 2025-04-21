@@ -8,7 +8,8 @@ import * as utils from '../../utils/utils';
 import { DialogService } from '../../services/dialog.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { AddEditProductComponent } from '../add-edit-product/add-edit-product.component';
+import { AddEditProductComponent } from '../agregar-editar-cliente/add-edit-product.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-list-products',
@@ -31,6 +32,7 @@ export class ListProductsComponent {
     private productService: ProductService,
     private dialogService: DialogService,
     private router: Router,
+    public auth: AuthService,
     private matDialog: MatDialog,
   ) { }
 
@@ -81,5 +83,9 @@ export class ListProductsComponent {
     this.router.navigate([`info/${id}`])
   }
 
+
+  logOut() {
+    this.auth.logout()
+  }
 
 }

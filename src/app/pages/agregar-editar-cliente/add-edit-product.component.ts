@@ -4,17 +4,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
-import { NgSelectModule } from '@ng-select/ng-select';
-// import { ToastrService } from 'ngx-toastr';
 import * as utils from '../../utils/utils';
 import { MatDialogRef } from '@angular/material/dialog';
-// import { Product } from 'src/app/interfaces/product';
-// import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-add-edit-product',
   templateUrl: './add-edit-product.component.html',
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, NgSelectModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   standalone: true,
   styleUrls: ['./add-edit-product.component.scss']
 })
