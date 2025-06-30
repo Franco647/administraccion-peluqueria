@@ -1,0 +1,37 @@
+
+<div class="card-header text-center">Agregar un Cliente</div>
+<div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="addProduct()">
+        <div class="col-md-12">
+            <label>Nombre y Apellido:</label>
+            <input 
+                formControlName="name" 
+                type="text" 
+                class="form-control form-control-sm" 
+            >
+        </div>
+        <div class="col-md-12 mt-2">
+            <label>Fecha de nacimiento:</label>
+            <input 
+                formControlName="date" 
+                max="9999-12-31" 
+                type="date" 
+                class="form-control form-control-sm"
+            >
+        </div>
+        <div class="col-md-12 mt-1">
+            <label>Sexo:</label>
+            <select 
+                formControlName="description"
+                class="form-select form-control"
+            >
+                <option *ngFor="let sexo of sexos" [value]="sexo.id"> {{ sexo.descripcion }} </option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+                <button type="button" class="btn-secondary-its col-md-5" (click)="cerrar()">Cerrar</button>
+                <button [disabled]="form.invalid" type="submit" class="btn-primary-its col-md-5">Agregar</button>
+        </div>
+    </form>
+</div>

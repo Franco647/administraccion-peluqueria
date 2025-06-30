@@ -1,0 +1,15 @@
+
+<div class="contenedor">
+    <h2 class="text">{{ data.titulo }}</h2>
+    <div class="text-secondary" *ngIf="data.contenido">
+      <small>{{ data.contenido }}</small>
+    </div>
+    <div class="w-100 d-flex justify-content-center buttons">
+      <button *ngIf="data.opcionFalse" class="btn-secondary-its col-5 mr-2" (click)="cerrarDialog(false)">
+        {{ data.opcionFalse }}
+      </button>
+      <button *ngIf="data.opcionTrue" class="col-5" [ngClass]="data.botonUnoColor === 'error' ? 'btn-danger-its' : 'btn-primary-its'" (click)="cerrarDialog(true)">
+        {{ data.opcionTrue }}
+      </button>
+    </div>
+</div>
