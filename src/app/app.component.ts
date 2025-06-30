@@ -1,12 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./pages/navbar/navbar.component";
-import { ListProductsComponent } from "./pages/list-products/list-products.component";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, ListProductsComponent],
+  imports: [RouterOutlet, HttpClientModule],
+    providers: [
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

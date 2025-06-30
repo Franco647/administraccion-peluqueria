@@ -26,7 +26,7 @@ export class AgregarTrabajoComponent {
     private productService: ProductService,
     public dialogRef: MatDialogRef<AgregarTrabajoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) { console.log(data) }
   
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -54,7 +54,7 @@ export class AgregarTrabajoComponent {
       description: this.form.value.description,
       price: this.form.value.price,
       date: this.form.value.date,
-      metodo_pago: +this.form.value.metodo
+      metodo_pago: +this.form.value.metodo,
     }
 
     this.productService.crearTrabajoCliente(this.data.id, data).subscribe(

@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 
-import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-home',
@@ -16,31 +17,44 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   form!: FormGroup;
 
+  errorMsg: string = '';
+
   constructor(
     private fb: FormBuilder,
-    private productService: ProductService,
+    private serviceLogin: LoginService,
     private router: Router,
-    public auth: AuthService
+    private cookieService: CookieService
   ) { }
   
   ngOnInit(): void {
     this.form = this.fb.group({
-      user: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required],
     })
-
-    this.auth.isAuthenticated$.subscribe(autenticado => {
-      if (autenticado) {
-        this.router.navigate(['/gestion-clientes'])
-      }
-    })
-    
-    this.auth.isAuthenticated$.subscribe(authenticated => {
-      console.log('Is authenticated:', authenticated);
-    });
   }
 
   login() {
-    this.auth.loginWithRedirect()
+    this.errorMsg = '';
+
+    this.serviceLogin.postLogin(this.form.value).subscribe({
+      next: (response: any) => {
+        if (response.status == 'ok') {
+          this.cookieService.set('token', response.token, 0.083, '/');
+
+          this.router.navigate(['/gestion-clientes']);
+        }
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.errorMsg = 'Usuario no encontrado.';
+        } else if (err.status === 400) {
+          this.errorMsg = 'Contraseña incorrecta.';
+        } else {
+          this.errorMsg = 'Error inesperado. Intente más tarde.';
+        }
+      }
+    })
   }
+
+
 }

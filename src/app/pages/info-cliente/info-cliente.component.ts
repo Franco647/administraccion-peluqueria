@@ -27,8 +27,7 @@ export class InfoClienteComponent {
   id: any;
   listProducts: any;
 
-  utils = utils
-
+  utils = utils;
 
   constructor(
     private fb: FormBuilder,
@@ -121,7 +120,7 @@ export class InfoClienteComponent {
         trabajo: this.listProducts.historial[id].description,
         precio: this.listProducts.historial[id].price,
         fecha: this.listProducts.historial[id].date,
-        metado: this.listProducts.historial[id].metodo_pago_id
+        metodo: this.listProducts.historial[id].metodo_pago_id
       }
     })
     .afterClosed()

@@ -4,11 +4,13 @@ import * as utils from '../../../utils/utils';
 import { CommonModule } from '@angular/common';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProductService } from '../../../services/product.service';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { selectFN } from '../../../utils/select';
 
 @Component({
   selector: 'app-editar-trabajo',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, NgSelectModule],
   templateUrl: './editar-trabajo.component.html',
   styleUrl: './editar-trabajo.component.scss'
 })
@@ -19,7 +21,8 @@ export class EditarTrabajoComponent implements OnInit {
 
   metodos: any[] = []
 
-  utils = utils
+  utils = utils;
+  select = selectFN;
 
   constructor(
     private fb: FormBuilder,
@@ -33,7 +36,7 @@ export class EditarTrabajoComponent implements OnInit {
       description: [this.data.trabajo, Validators.required],
       price: [this.data.precio, Validators.required],
       date: [this.data.fecha, Validators.required],
-      metodo: [this.data.metado, Validators.required],
+      metodo: [this.data.metodo, Validators.required],
     })
 
     this.getMetodos();

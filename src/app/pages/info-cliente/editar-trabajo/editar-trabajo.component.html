@@ -21,13 +21,19 @@
         </div>
 
         <div class="col-md-12 mt-1">
-            <label>Metado de pago:</label>
-            <select 
+            <label>Método de pago:</label>
+            <ng-select 
+                #metodo
                 formControlName="metodo"
-                class="form-select form-control"
+                [clearable]="false"
+                [searchable]="true"
+                [selectOnTab]="true"
+                (click)="select.cerrarSelect($event, metodo, 'metodo')"
+                (close)="select.actualizarEstadoCierre('metodo', metodo)"
+                class="form-select ng-select-custom" 
             >
-                <option *ngFor="let metodo of metodos" [value]="metodo.id"> {{ metodo.descripcion }} </option>
-            </select>
+                <ng-option *ngFor="let metodo of metodos" [value]="metodo.id"> {{ metodo.descripcion }} </ng-option>
+            </ng-select>
         </div>
 
         <div class="col-md-12 mt-1">

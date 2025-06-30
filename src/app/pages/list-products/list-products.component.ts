@@ -9,7 +9,8 @@ import { DialogService } from '../../services/dialog.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditProductComponent } from '../agregar-editar-cliente/add-edit-product.component';
-import { AuthService } from '@auth0/auth0-angular';
+import { LoginService } from '../../services/login.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-list-products',
@@ -32,8 +33,9 @@ export class ListProductsComponent {
     private productService: ProductService,
     private dialogService: DialogService,
     private router: Router,
-    public auth: AuthService,
+    private serviceLogin: LoginService,
     private matDialog: MatDialog,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -83,9 +85,22 @@ export class ListProductsComponent {
     this.router.navigate([`info/${id}`])
   }
 
-
-  logOut() {
-    this.auth.logout()
+  editarCliente(idCliente: number) {
+    console.log(idCliente)
   }
 
+  logOut() {
+    let data;
+
+    this.serviceLogin.postLogOut(data).subscribe({
+      next: (response: any) => {
+        if (response.status == 'ok') {
+          this.cookieService.delete('token', '/');
+          this.router.navigate(['/']);
+        }
+      }
+    })
+  }
+
+  
 }

@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './pages/navbar/navbar.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';

@@ -11,10 +11,12 @@ import { environment } from '../../environments/environments';
 export class ProductService {
   private myAppUrl: string;
   private myApiUrl: string;
+  private clientes_historial: string;
 
   constructor(private http: HttpClient) { 
     this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/clientes/'
+    this.myApiUrl = 'api/clientes/';
+    this.clientes_historial = 'api/clientes-historial/';
   }
 
   getListaClientes(): Observable<Product[]> {
@@ -22,7 +24,7 @@ export class ProductService {
   }
 
   getProduct(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.myAppUrl}${this.myApiUrl}${id}`)
+    return this.http.get<Product>(`${this.myAppUrl}${this.clientes_historial}${id}`)
   }
 
   deleteCliente(id: number): Observable<Product[]> {
@@ -30,11 +32,11 @@ export class ProductService {
   }
 
   deleteTrabajo(id: number): Observable<Product[]> {
-    return this.http.delete<Product[]>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`);
+    return this.http.delete<Product[]>(`${this.myAppUrl}${this.clientes_historial}${id}/historial`);
   }
 
   saveProduct(product: Product): Observable<void> {
-    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`,product)
+    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}`, product)
   }
 
   updateProduct(id: number, product: Product): Observable<void> {
@@ -42,11 +44,11 @@ export class ProductService {
   }
 
   crearTrabajoCliente(id: number, product: Product): Observable<void> {
-    return this.http.post<void>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`, product);
+    return this.http.post<void>(`${this.myAppUrl}${this.clientes_historial}${id}/historial`, product);
   }
 
   editarClienteHistorial(id: number, data: Product): Observable<void> {
-    return this.http.put<void>(`${this.myAppUrl}${this.myApiUrl}${id}/historial`, data);
+    return this.http.put<void>(`${this.myAppUrl}${this.clientes_historial}${id}/historial`, data);
   }
 
 
