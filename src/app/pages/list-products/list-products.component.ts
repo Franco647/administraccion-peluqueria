@@ -57,9 +57,7 @@ export class ListProductsComponent {
     this.productService.getProduct(id).subscribe(
       (response: any) => {
         if (response.status === 'ok') {
-          console.log(response)
-          // this.histor = response.body;
-          console.log(this.listProducts)
+
         }
     })
   }
@@ -74,7 +72,6 @@ export class ListProductsComponent {
     })
     .afterClosed()
     .subscribe((result) => {
-      console.log(result)
       if (result) {
         this.getListaClientes()
       }
@@ -86,7 +83,6 @@ export class ListProductsComponent {
   }
 
   editarCliente(idCliente: number) {
-    console.log(idCliente)
   }
 
   logOut() {

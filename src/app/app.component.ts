@@ -20,5 +20,5 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Drios';
 }

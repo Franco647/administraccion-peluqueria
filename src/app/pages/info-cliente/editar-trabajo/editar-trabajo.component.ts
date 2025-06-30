@@ -29,7 +29,7 @@ export class EditarTrabajoComponent implements OnInit {
     private productService: ProductService,
     public dialogRef: MatDialogRef<EditarTrabajoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { console.log(data) }
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({

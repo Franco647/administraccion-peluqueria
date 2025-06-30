@@ -64,7 +64,6 @@ export class AddEditProductComponent implements OnInit {
   }
 
   addProduct() {
-    console.log(this.form.value.name);
 
     const product: any = {
       name: this.form.value.name,

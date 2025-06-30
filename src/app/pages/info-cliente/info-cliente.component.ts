@@ -60,7 +60,6 @@ export class InfoClienteComponent {
       (response: any) => {
         if (response.status === 'ok') {
           this.listProducts = response.body;
-          console.log(this.listProducts)
         }
     })
   }
@@ -105,8 +104,6 @@ export class InfoClienteComponent {
 
   editarClienteHistorial(id: number) {
 
-    console.log(this.listProducts)
-
     const dialogWidth = window.innerWidth < 768 ? '80vw' : '400px';
     const dialogHeight = window.innerHeight < 768 ? '70vh' : '475px';
 
@@ -125,7 +122,6 @@ export class InfoClienteComponent {
     })
     .afterClosed()
     .subscribe((result) => {
-      console.log(result)
       if (result) {
         this.getCliente(this.id);
       }
@@ -147,7 +143,6 @@ export class InfoClienteComponent {
     })
     .afterClosed()
     .subscribe((result) => {
-      console.log(result)
       if (result) {
         this.getCliente(this.id);
       }
