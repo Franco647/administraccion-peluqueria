@@ -2,19 +2,20 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = 'tu_clave_secreta';
+const SECRET_KEY = 'Thobokholt123';
 
-export const validarJWT = (req: Request, res: Response, next: NextFunction) => {
+export const validarJWT = (req: Request, res: Response, next: NextFunction): void => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return res.status(401).json({ msg: 'Token no proporcionado' });
+    res.status(401).json({ msg: 'Token no proporcionado' });
+    return; // importante para evitar seguir ejecutando
   }
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
     (req as any).usuario = decoded;
-    next();
+    next(); // pasa al siguiente middleware
   } catch (err) {
     res.status(401).json({ msg: 'Token inválido' });
   }

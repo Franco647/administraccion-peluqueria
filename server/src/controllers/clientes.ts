@@ -46,7 +46,7 @@ export const getClientes = async (req: Request, res: Response) => {
     }
 }
 
-export const deleteCliente = async (req: Request, res: Response): Promise<Response> => {
+export const deleteCliente = async (req: Request, res: Response): Promise<void> => {
 
     const { id } = req.params;
 
@@ -54,28 +54,28 @@ export const deleteCliente = async (req: Request, res: Response): Promise<Respon
         const cliente = await Cliente.findByPk(id);
 
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 status: 'error',
                 msg: `No existe un cliente con el id ${id}`,
             });
+            return
         }
 
         await cliente.destroy();
 
-        return res.json({
+        res.json({
             status: 'ok',
             msg: 'El cliente y su historial fueron eliminados',
         });
     } catch (error) {
-        console.error(error);
-        return  res.status(500).json({
+        res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al eliminar el cliente: ${error}`,
         });
     }
 };
 
-export const postCliente = async (req: Request, res: Response) => {
+export const postCliente = async (req: Request, res: Response): Promise<void> => {
 
     const { body } = req;
     
@@ -89,7 +89,7 @@ export const postCliente = async (req: Request, res: Response) => {
         const sexoTexto = sexoMap[body.sexo];
 
         if (!sexoTexto) {
-            return res.status(400).json({
+            res.status(400).json({
                 status: 'error',
                 msg: 'El valor de sexo debe ser 1 (masculino), 2 (femenino) o 3 (no definido)'
             });

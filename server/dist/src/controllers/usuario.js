@@ -16,17 +16,19 @@ exports.logout = exports.login = void 0;
 const usuario_1 = __importDefault(require("../models/usuario"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const SECRET_KEY = 'tu_clave_secreta'; // ⚠️ Mejor usar dotenv
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const SECRET_KEY = process.env.SECRET_KEY || 'Thobokholt123'; // ⚠️ Mejor usar dotenv
+const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         const usuario = yield usuario_1.default.findOne({ where: { email } });
         if (!usuario) {
-            return res.status(404).json({ msg: 'Usuario no encontrado' });
+            res.status(404).json({ msg: 'Usuario no encontrado' });
+            return;
         }
         const validPassword = bcryptjs_1.default.compareSync(password, usuario.getDataValue('password'));
         if (!validPassword) {
-            return res.status(400).json({ msg: 'Contraseña incorrecta' });
+            res.status(400).json({ msg: 'Contraseña incorrecta' });
+            return;
         }
         const token = jsonwebtoken_1.default.sign({ id: usuario.getDataValue('id') }, SECRET_KEY, {
             expiresIn: '2h',
@@ -34,7 +36,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json({
             status: 'ok',
             msg: 'Login exitoso',
-            token
+            token,
         });
     }
     catch (err) {

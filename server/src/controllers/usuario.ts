@@ -1,25 +1,27 @@
 // controllers/auth.ts
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import Usuario from '../models/usuario';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const SECRET_KEY = 'tu_clave_secreta'; // ⚠️ Mejor usar dotenv
+const SECRET_KEY = process.env.SECRET_KEY || 'Thobokholt123'; // ⚠️ Mejor usar dotenv
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { email, password } = req.body;
 
   try {
     const usuario = await Usuario.findOne({ where: { email } });
 
     if (!usuario) {
-      return res.status(404).json({ msg: 'Usuario no encontrado' });
+      res.status(404).json({ msg: 'Usuario no encontrado' });
+      return;
     }
 
     const validPassword = bcrypt.compareSync(password, usuario.getDataValue('password'));
 
     if (!validPassword) {
-      return res.status(400).json({ msg: 'Contraseña incorrecta' });
+      res.status(400).json({ msg: 'Contraseña incorrecta' });
+      return;
     }
 
     const token = jwt.sign({ id: usuario.getDataValue('id') }, SECRET_KEY, {
@@ -27,9 +29,9 @@ export const login = async (req: Request, res: Response) => {
     });
 
     res.json({
-        status: 'ok',
-        msg: 'Login exitoso',
-        token
+      status: 'ok',
+      msg: 'Login exitoso',
+      token,
     });
   } catch (err) {
     res.status(500).json({ msg: 'Error en el login', error: err });

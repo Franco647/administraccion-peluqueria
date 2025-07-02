@@ -58,20 +58,20 @@ const deleteCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const cliente = yield cliente_1.default.findByPk(id);
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 status: 'error',
                 msg: `No existe un cliente con el id ${id}`,
             });
+            return;
         }
         yield cliente.destroy();
-        return res.json({
+        res.json({
             status: 'ok',
             msg: 'El cliente y su historial fueron eliminados',
         });
     }
     catch (error) {
-        console.error(error);
-        return res.status(500).json({
+        res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al eliminar el cliente: ${error}`,
         });
@@ -88,7 +88,7 @@ const postCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const sexoTexto = sexoMap[body.sexo];
         if (!sexoTexto) {
-            return res.status(400).json({
+            res.status(400).json({
                 status: 'error',
                 msg: 'El valor de sexo debe ser 1 (masculino), 2 (femenino) o 3 (no definido)'
             });

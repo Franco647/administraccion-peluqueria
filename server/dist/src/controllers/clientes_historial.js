@@ -53,14 +53,15 @@ const getClienteHistorial = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 exports.getClienteHistorial = getClienteHistorial;
 const deleteClienteHistorial = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
     try {
+        const { id } = req.params;
         const cliente = yield cliente_historial_1.default.findByPk(id);
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 status: 'error',
                 msg: `No existe un cliente con el id ${id}`,
             });
+            return;
         }
         yield cliente.destroy();
         res.json({
@@ -69,7 +70,6 @@ const deleteClienteHistorial = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        console.error(error);
         res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al eliminar el cliente: ${error}`,
@@ -89,13 +89,13 @@ const postClienteHistorial = (req, res) => __awaiter(void 0, void 0, void 0, fun
     try {
         const metodoTexto = metodoMap[metodo_pago];
         if (!metodoTexto) {
-            return res.status(400).json({
+            res.status(400).json({
                 status: 'error'
             });
         }
         const cliente = yield cliente_1.default.findByPk(id);
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 msg: `No se encontró un cliente con el ID ${id}`,
             });
         }
@@ -108,15 +108,14 @@ const postClienteHistorial = (req, res) => __awaiter(void 0, void 0, void 0, fun
             metodo_pago: metodoTexto,
             metodo_pago_id: metodo_pago
         });
-        return res.json({
+        res.json({
             status: 'ok',
             msg: 'Historial agregado con éxito',
             historial,
         });
     }
     catch (error) {
-        console.log(error);
-        return res.status(500).json({
+        res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al agregar el historial: ${error}`,
         });

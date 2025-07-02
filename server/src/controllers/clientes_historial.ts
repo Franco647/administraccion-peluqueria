@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 
 import Cliente from '../models/cliente';
 import ClienteHistorial from '../models/cliente-historial';
@@ -42,18 +42,19 @@ export const getClienteHistorial = async (req: Request, res: Response) => {
 }
 
 
-export const deleteClienteHistorial = async (req: Request, res: Response): Promise<Response | void> => {
-
-    const { id } = req.params;
+export const deleteClienteHistorial = async (req: Request, res: Response): Promise<void> => {
 
     try {
+        const { id } = req.params;
+
         const cliente = await ClienteHistorial.findByPk(id);
 
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 status: 'error',
                 msg: `No existe un cliente con el id ${id}`,
             });
+            return;
         }
 
         await cliente.destroy();
@@ -63,7 +64,6 @@ export const deleteClienteHistorial = async (req: Request, res: Response): Promi
             msg: 'El trabajo fue eliminado',
         });
     } catch (error) {
-        console.error(error);
         res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al eliminar el cliente: ${error}`,
@@ -72,7 +72,7 @@ export const deleteClienteHistorial = async (req: Request, res: Response): Promi
 }
 
 
-export const postClienteHistorial = async (req: Request, res: Response): Promise<Response | void> => {
+export const postClienteHistorial = async (req: Request, res: Response): Promise<void> => {
 
     const { id } = req.params;
     const { name, description, price, date, metodo_pago } = req.body;
@@ -88,7 +88,7 @@ export const postClienteHistorial = async (req: Request, res: Response): Promise
         const metodoTexto = metodoMap[metodo_pago];
 
         if (!metodoTexto) {
-            return res.status(400).json({
+            res.status(400).json({
                 status: 'error'
             });
         }
@@ -96,7 +96,7 @@ export const postClienteHistorial = async (req: Request, res: Response): Promise
         const cliente = await Cliente.findByPk(id);
 
         if (!cliente) {
-            return res.status(404).json({
+            res.status(404).json({
                 msg: `No se encontró un cliente con el ID ${id}`,
             });
         }
@@ -111,15 +111,14 @@ export const postClienteHistorial = async (req: Request, res: Response): Promise
             metodo_pago_id: metodo_pago
         });
 
-        return res.json({
+        res.json({
             status: 'ok',
             msg: 'Historial agregado con éxito',
             historial,
         });
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
+        res.status(500).json({
             status: 'error',
             msg: `Ocurrió un error al agregar el historial: ${error}`,
         });
