@@ -5,3 +5,10 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const server = new Server();
+
+try {
+  server.listen();
+  console.log('Servidor arrancado correctamente');
+} catch (err) {
+  console.error('Error arrancando el servidor:', err);
+}
