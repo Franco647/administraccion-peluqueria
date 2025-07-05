@@ -5,7 +5,7 @@ import ClienteHistorial from './cliente-historial';
 interface ClienteAttributes {
     id: number;
     name: string;
-    sexo: string;
+    sexo_id: string;
     fecha_nacimiento: Date;
 }
 
@@ -15,7 +15,7 @@ class Cliente extends Model<ClienteAttributes, ClienteCreationAttributes> implem
     public id!: number;
     public name!: string;
     public fecha_nacimiento!: Date;
-    public sexo!: string;
+    public sexo_id!: string;
 
     // Timestamps
     public readonly createdAt!: Date;
@@ -33,8 +33,8 @@ Cliente.init(
             type: DataTypes.STRING,
             allowNull: false
         },
-        sexo: {
-            type: DataTypes.NUMBER,
+        sexo_id: {
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         fecha_nacimiento: {
