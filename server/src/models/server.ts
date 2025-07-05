@@ -16,11 +16,9 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.port = process.env.PORT || '3001';
-        this.listen();
+        this.port = process.env.PORT || '3001'; // Local 3001, Render usa el PORT que asigna
         this.midlewares();
         this.routes();
-        this.dbConnect();
     }
     
     listen() {
@@ -50,19 +48,21 @@ class Server {
         this.app.use(cors());
     }
 
-    async dbConnect() {
-        console.log('empezando conexión a la base de datos...')
-
+    private async dbConnect() {
+            console.log('🔌 Iniciando conexión a la base de datos...');
         try {
-            console.log('Conectando a la base de datos...')
             await db.authenticate();
+            console.log('✅ Base de datos conectada correctamente');
         } catch (error) {
-            console.log(error)
-            console.log('Error a conectarse a la base de datos')
+            console.error('❌ Error al conectarse a la base de datos:', error);
+            throw error;
         }
-
     }
 
+    public async start() {
+        await this.dbConnect();
+        this.listen();
+    }
 
 }
 

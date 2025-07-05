@@ -6,9 +6,6 @@ dotenv.config();
 
 const server = new Server();
 
-try {
-  server.listen();
-  console.log('Servidor arrancado correctamente');
-} catch (err) {
-  console.error('Error arrancando el servidor:', err);
-}
+server.start().catch(err => {
+  console.error('❌ Falló el inicio del servidor:', err);
+});
